@@ -20,6 +20,13 @@ public class Card {
         this.level = level;
     }
 
+    public Card(Card card){ //used to create a copy of a Card object without reference to the original
+        this.name = card.name;
+        System.arraycopy( card.values, 0, this.values, 0, card.values.length );
+        this.element = card.element;
+        this.level = card.level;
+    }
+
 
     /*
     0 = left value
@@ -82,6 +89,11 @@ public class Card {
         else{
             owner = 1;
         }
+    }
+
+    public Card copy(){
+        Card temp = new Card(this);
+        return temp;
     }
 
 

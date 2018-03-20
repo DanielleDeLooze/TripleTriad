@@ -10,7 +10,6 @@ public class main {
         HashMap<String, Card> cards = genereate_Cards();
 
         Card[] player1_card = new Card[5];
-
         player1_card[0] = cards.get("Geezard");
         player1_card[1] = cards.get("Funguar");
         player1_card[2] = (cards.get("Bite Bug"));
@@ -26,8 +25,8 @@ public class main {
         player2_card[4] = (cards.get("Cockatrice"));
         Player player_two = new Player(player2_card, 2);
 
-        Board board = new Board(player_one,player_two);
-        board.play_game();
+        Game game = new Game(player_one,player_two);
+        game.play_game();
 
     }
 

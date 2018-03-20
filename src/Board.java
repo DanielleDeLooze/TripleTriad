@@ -29,24 +29,19 @@ public class Board {
         rules.add("Open");
     }
 
-    public void play_game(){
-        Scanner scan = new Scanner(System.in);
-
-        while(!is_full()){
-            print_board();
-            System.out.println();
-            System.out.println("Current Player: "+ current_player.getLabel());
-            System.out.println("Cards to Choose from: ");
-            current_player.print_available_card();
-            int index = scan.nextInt();
-            Card card = current_player.play_card(index);
-            System.out.println("Which position?");
-            int[] pos = get_position();
-            play_card(pos[0],pos[1],card);
+    public Board(Board board){ //used to create a copy of a board without reference to the original
+        this.board = new Card[3][3];
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                if(board.board[i][j] != null) {
+                    this.board[i][j] = board.board[i][j].copy();
+                }
+            }
         }
-        System.out.println();
-        print_board();
-        System.out.println("Winner is: Player " + get_winner());
+        this.current_player = board.current_player.copy();
+        this.player_one = board.player_one.copy();
+        this.player_two = board.player_two.copy();
+        //this.rules = board.rules;
     }
 
     public Player get_next(){
@@ -205,6 +200,26 @@ public class Board {
         }
         return true;
     }
+
+    //utility function for mini-max algorithm. Not sure if this will get used.
+    public int utility(){
+        if(player_one.getScore() > player_two.getScore()){
+            return 1; //player one (ai) wins
+        }
+        else if(player_two.getScore() > player_one.getScore()){
+            return -1; //player two (human) wins
+        }
+        else{
+            return 0; //draw
+        }
+    }
+
+    //function to copy board and values over
+    public Board copy(){
+        Board temp = new Board(this);
+        return temp;
+    }
+
 
     //print the current board with some formatting to make it more easily readable
     public void print_board(){

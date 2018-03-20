@@ -52,4 +52,15 @@ public class Player {
             }
         }
     }
+
+    public Player copy(){ //copy of player without reference to the original
+        Player temp = new Player(this.label);
+        temp.score = this.score;
+        for(int i = 0; i < 5; i++){
+            if(this.cards[i] != null) {
+                temp.cards[i] = this.cards[i].copy();
+            }
+        }
+        return temp;
+    }
 }
