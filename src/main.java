@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 public class main {
     public static final int A = 10;
@@ -8,6 +10,7 @@ public class main {
         HashMap<String, Card> cards = genereate_Cards();
 
         Card[] player1_card = new Card[5];
+
         player1_card[0] = cards.get("Geezard");
         player1_card[1] = cards.get("Funguar");
         player1_card[2] = (cards.get("Bite Bug"));
@@ -28,8 +31,30 @@ public class main {
 
     }
 
+    //method to genereate 5 random cards from all possible cards (repeats allowed)
+    public static Card[] getFiveRandomCards(){
+        HashMap<String, Card> cards = genereate_Cards();
+        Random generator = new Random();
+        Card[] random_cards = new Card[5];
+        Object[] values = cards.values().toArray();
+        for(int i = 0; i < 5; i++){
+            random_cards[i] = (Card)values[generator.nextInt(values.length)];
+        }
+        return random_cards;
+
+    }
+
+    //genereates a HashMap with all of the possible cards. Cards pulled from FFVII Triple Triad Wiki
     public static HashMap<String, Card> genereate_Cards(){
         HashMap<String, Card> cards = new HashMap<>();
+
+        /*
+        Format of values: In values {a,b,c,d}
+        a = left value
+        b = top value
+        c = right value
+        d = bottom value
+         */
 
         int[] value1 = new int[]{5,1,4,1};
         Card card = new Card("Geezard", value1, 'N', 1);

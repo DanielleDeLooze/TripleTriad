@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /*
 Author: Danielle DeLooze
@@ -43,14 +44,11 @@ public class Player {
         return label;
     }
 
+    //print all available cards. Number displayed will be the index number
     public void print_available_card(){
         for(int i = 0; i < 5; i++){
             if(cards[i] != null) {
-                System.out.print(i + ". " + cards[i].get_name() + "\t[");
-                for(int value: cards[i].values){
-                    System.out.print(value+",");
-                }
-                System.out.println("]");
+                System.out.println(i + ". " + cards[i].get_name() + "\t"+ Arrays.toString(cards[i].values));
             }
         }
     }
