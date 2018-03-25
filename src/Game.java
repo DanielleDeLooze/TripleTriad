@@ -4,6 +4,7 @@ Date: 3/20/2018
 Purpose: Class to implement and run a game of Triple Triad
  */
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
@@ -64,6 +65,94 @@ public class Game {
 
     public void computer_move(){
         Board temp_board = board.copy();
+    }
+
+    public Move MiniMax(Board board){
+        ArrayList<Move> moves = new ArrayList(); //generate all possible moves
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                for(int k = 0; k < 5; k++){
+                    if((board.board[i][j] == null) && (board.current_player.cards[k] != null)){
+                        Move new_move = new Move(i, j, board.current_player.cards[k],k);
+                        moves.add(new_move);
+                    }
+                }
+            }
+        }
+
+        int max = -2;
+        Move best_move = null;
+
+        while(!moves.isEmpty()){ //run through all possible moves, if the min-value for this move is greater than current max, both the utility value and best move will be updated
+            Board temp = board.copy();
+            Move move = moves.remove(0);
+            temp.play_card(move.i, move.j, temp.current_player.play_card(move.index));
+            int utility = Min(temp);
+            if(max < utility){
+                max = utility;
+                best_move = move;
+            }
+        }
+
+        return best_move;
+    }
+
+    public int Max(Board board){
+        if(board.is_full()){
+            return board.utility();
+        }
+
+        ArrayList<Move> moves = new ArrayList();
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                for(int k = 0; k < 5; k++){
+                    if((board.board[i][j] == null) && (board.current_player.cards[k] != null)){
+                        Move new_move = new Move(i, j, board.current_player.cards[k],k);
+                        moves.add(new_move);
+                    }
+                }
+            }
+        }
+
+        int max = -2;
+        Move best_move;
+        while(!moves.isEmpty()){
+            Move move = moves.remove(0);
+            Board temp = board.copy();
+            temp.play_card(move.i, move.j, temp.current_player.play_card(move.index));
+            max = Math.max(max, Min(temp));
+        }
+
+        return max;
+    }
+
+    public int Min(Board board){
+        if(board.is_full()){
+            return board.utility();
+        }
+
+        ArrayList<Move> moves = new ArrayList();
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                for(int k = 0; k < 5; k++){
+                    if((board.board[i][j] == null) && (board.current_player.cards[k] != null)){
+                        Move new_move = new Move(i, j, board.current_player.cards[k],k);
+                        moves.add(new_move);
+                    }
+                }
+            }
+        }
+
+        int min = 2;
+        Move best_move;
+        while(!moves.isEmpty()){
+            Move move = moves.remove(0);
+            Board temp = board.copy();
+            temp.play_card(move.i, move.j, temp.current_player.play_card(move.index));
+            min = Math.min(min, Max(temp));
+        }
+
+        return min;
     }
 
 
